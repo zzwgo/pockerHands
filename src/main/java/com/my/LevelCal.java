@@ -6,13 +6,15 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(isFourOfKind(pockers)){
+        if(isStraightFlush(pockers)){
+            return PokerLevel.STRAIGHT_FLUSH;
+        }else if(isFourOfKind(pockers)){
             return PokerLevel.FOUR_OF_A_KIND;
         }else if(isFullHouse(pockers)){
             return PokerLevel.FULL_HOUSE;
         }else if(isFlush(pockers)){
             return PokerLevel.FLUSH;
-        }else if(isSTRAIGHT(pockers)){
+        }else if(isStraight(pockers)){
             return PokerLevel.STRAIGHT;
         }else if(hasThreeOfKind(pockers)){
             return PokerLevel.THREE_OF_A_KIND;
@@ -20,6 +22,12 @@ public class LevelCal {
             return PokerLevel.PAIR;
         }
         return PokerLevel.HIGH_POINT;
+    }
+
+    private static boolean isStraightFlush(List<Pocker> pockers) {
+       boolean isContinuous= judgeIsContinuous(pockers);
+        Set<String> set = pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toSet());
+        return set.size() == 1&&isContinuous;
     }
 
     private static boolean isFourOfKind(List<Pocker> pockers) {
@@ -160,7 +168,11 @@ public class LevelCal {
         return pockers;
     }
 
-    public static boolean isSTRAIGHT(List<Pocker> pockers) {
+    public static boolean isStraight(List<Pocker> pockers) {
+        return judgeIsContinuous(pockers);
+    }
+
+    private static boolean judgeIsContinuous(List<Pocker> pockers) {
         if(pockers.size()!=5){
             return false;
         }
