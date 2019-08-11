@@ -48,9 +48,16 @@ public class LevelCal {
                 return handleSameThreeOfKind(playerA.getPockers(), playerB.getPockers());
             case 4:
                 return handleSameStraight(playerA.getPockers(), playerB.getPockers());
-            case 5:return handleSameFlush();
+            case 5:
+                return handleSameFlush();
+            case 6:
+                return handleSameFullHouse(playerA.getPockers(), playerB.getPockers());
         }
         return 0;
+    }
+
+    private static int handleSameFullHouse(List<Pocker> pockerA, List<Pocker> pockerB) {
+        return compareMaxPoint(pockerA, pockerB);
     }
 
     private static int handleSameFlush() {

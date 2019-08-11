@@ -172,6 +172,7 @@ public class PockerHandsTest {
 
         assertEquals(3, result);
     }
+
     @Test
     public void should_return_2_when_call_excute_given_each_player_five_poker_and__playerB_has_fullHouse() {
         List<Pocker> pockerListA = getPockerList(Arrays.asList("7H", "7C", "7S", "8C", "8D"));
@@ -180,6 +181,16 @@ public class PockerHandsTest {
 
         assertEquals(1, result);
     }
+
+    @Test
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_each_player_has_fullHouse() {
+        List<Pocker> pockerListA = getPockerList(Arrays.asList("7H", "7C", "7S", "8C", "8D"));
+        List<Pocker> pockerListB = getPockerList(Arrays.asList("2D", "2S", "2H", "5D", "5C"));
+        int result = pockerHands.excute(pockerListA, pockerListB);
+
+        assertEquals(1, result);
+    }
+
     private List<Pocker> getPockerList(List<String> values) {
         List<Pocker> pockerList = new ArrayList<Pocker>();
         for (String value : values) {
