@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(isFullHouse(pockers)){
+        if(isFourOfKind(pockers)){
+            return PokerLevel.FOUR_OF_A_KIND;
+        }else if(isFullHouse(pockers)){
             return PokerLevel.FULL_HOUSE;
         }else if(isFlush(pockers)){
             return PokerLevel.FLUSH;
@@ -18,6 +20,16 @@ public class LevelCal {
             return PokerLevel.PAIR;
         }
         return PokerLevel.HIGH_POINT;
+    }
+
+    private static boolean isFourOfKind(List<Pocker> pockers) {
+        Map<Integer,Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > 3) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean hasThreeOfKind(List<Pocker> pockers) {
