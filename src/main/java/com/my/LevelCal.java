@@ -46,8 +46,13 @@ public class LevelCal {
                 return handleSameThreeOfKind(playerA.getPockers(), playerB.getPockers());
             case 4:
                 return handleSameStraight(playerA.getPockers(), playerB.getPockers());
+            case 5:return handleSameFlush();
         }
         return 0;
+    }
+
+    private static int handleSameFlush() {
+        return 3;
     }
 
     private static int handleSameStraight(List<Pocker> pockersA, List<Pocker> pockersB) {
@@ -147,6 +152,6 @@ public class LevelCal {
     public static boolean isFlush(List<Pocker> pockers) {
         List<String> colorList=pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toList());
         Set<String> set = new HashSet<>(colorList);
-        return set.size() == 1;
+        return set.size() == 1&&colorList.size()==5;
     }
 }
