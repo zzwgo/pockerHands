@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(isFlush(pockers)){
+        if(isFullHouse(pockers)){
+            return PokerLevel.FULL_HOUSE;
+        }else if(isFlush(pockers)){
             return PokerLevel.FLUSH;
         }else if(isSTRAIGHT(pockers)){
             return PokerLevel.STRAIGHT;
@@ -153,5 +155,11 @@ public class LevelCal {
         List<String> colorList=pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toList());
         Set<String> set = new HashSet<>(colorList);
         return set.size() == 1&&colorList.size()==5;
+    }
+
+    public static boolean isFullHouse(List<Pocker> pockers) {
+        List<Integer> colorList=pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        Set<Integer> set = new HashSet<>(colorList);
+        return set.size() == 2&&colorList.size()==5;
     }
 }
