@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(isSTRAIGHT(pockers)){
+        if(isFlush(pockers)){
+            return PokerLevel.FLUSH;
+        }else if(isSTRAIGHT(pockers)){
             return PokerLevel.STRAIGHT;
         }else if(hasThreeOfKind(pockers)){
             return PokerLevel.THREE_OF_A_KIND;
@@ -140,5 +142,11 @@ public class LevelCal {
             }
         }
         return true;
+    }
+
+    public static boolean isFlush(List<Pocker> pockers) {
+        List<String> colorList=pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toList());
+        Set<String> set = new HashSet<>(colorList);
+        return set.size() == 1;
     }
 }
