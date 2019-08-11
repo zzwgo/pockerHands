@@ -33,17 +33,28 @@ public class LevelCal {
     private static int handleSamePair(List<Pocker> pockersA, List<Pocker> pockersB) {
         List<Integer> countListA = pockersA.stream().map(Pocker::getPoint).collect(Collectors.toList());
         List<Integer> countListB = pockersB.stream().map(Pocker::getPoint).collect(Collectors.toList());
-        int maxPointA = getMaxPairCount(countListA);
-        int maxPointB = getMaxPairCount(countListB);
+        int maxPointA = getMaxCount(countListA);
+        int maxPointB = getMaxCount(countListB);
         if (maxPointA == maxPointB) {
-            pockersA=pockersA.stream().filter(item->item.getPoint()!=maxPointA).collect(Collectors.toList());
-            pockersB=pockersB.stream().filter(item->item.getPoint()!=maxPointB).collect(Collectors.toList());
-            return handleSameHighPoint(pockersA,pockersB);
+            return handleSameHighPoint(pockersA, pockersB);
         }
         return maxPointA > maxPointB ? 1 : 2;
     }
 
-    private static int getMaxPairCount(List<Integer> countList) {
+    private static int getMaxCount(List<Integer> countList) {
+        HashMap<Integer, Integer> map = getCountTimesMap(countList);
+        Collection<Integer> count = map.values();
+        int maxCount = Collections.max(count);
+        int maxNumber = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (maxCount == entry.getValue()) {
+                maxNumber = entry.getKey() > maxNumber ? entry.getKey() : maxNumber;
+            }
+        }
+        return maxNumber;
+    }
+
+    private static HashMap<Integer, Integer> getCountTimesMap(List<Integer> countList) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < countList.size(); i++) {
             if (map.containsKey(countList.get(i))) {
@@ -53,23 +64,33 @@ public class LevelCal {
                 map.put(countList.get(i), 1);
             }
         }
-        Collection<Integer> count = map.values();
-        int maxCount = Collections.max(count);
-        int maxNumber = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (maxCount == entry.getValue()) {
-                maxNumber = entry.getKey();
-            }
-        }
-        return maxNumber;
+        return map;
     }
 
     private static int handleSameHighPoint(List<Pocker> pockersA, List<Pocker> pockersB) {
+        pockersA = getNoRepeatedPockerList(pockersA);
+        pockersB = getNoRepeatedPockerList(pockersB);
+
         int maxPointA = pockersA.stream().mapToInt(Pocker::getPoint).reduce(Integer::max).orElse(0);
         int maxPointB = pockersB.stream().mapToInt(Pocker::getPoint).reduce(Integer::max).orElse(0);
+
         if (maxPointA == maxPointB) {
             return 3;
         }
         return maxPointA > maxPointB ? 1 : 2;
+    }
+
+    private static List<Pocker> getNoRepeatedPockerList(List<Pocker> pockers) {
+        HashMap<Integer, Integer> mapA = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
+        List<Integer> repeatPointsA = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : mapA.entrySet()) {
+            if (entry.getValue() > 1 && !repeatPointsA.contains(entry.getKey())) {
+                repeatPointsA.add(entry.getKey());
+            }
+        }
+        for (int point : repeatPointsA) {
+            pockers = pockers.stream().filter(item -> item.getPoint() != point).collect(Collectors.toList());
+        }
+        return pockers;
     }
 }
