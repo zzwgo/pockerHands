@@ -1,9 +1,9 @@
 package com.my;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
@@ -30,5 +30,24 @@ public class PockerHandsTest {
         int result=pockerHands.excute(singletonList(pockerA),singletonList(pockerB));
 
         assertEquals(3,result);
+    }
+
+    @Test
+    public void should_return_1_when_call_excute_given_each_player_five_poker(){
+
+        List<Pocker> pockerListA= getPockerList(Arrays.asList("4H","5C","8C","9C","AD"));
+        List<Pocker> pockerListB= getPockerList(Arrays.asList("2H","3D","5S","9C","KD"));
+
+        int result=pockerHands.excute(pockerListA,pockerListB);
+
+        assertEquals(1,result);
+    }
+
+    private List<Pocker> getPockerList(List<String> values){
+        List<Pocker> pockerList= new ArrayList<Pocker>();
+        for(String value:values){
+            pockerList.add(new Pocker(value));
+        }
+        return  pockerList;
     }
 }
