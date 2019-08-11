@@ -42,11 +42,21 @@ public class LevelCal {
                 return handleSamePair(playerA.getPockers(), playerB.getPockers());
             case 3:
                 return handleSameThreeOfKind(playerA.getPockers(), playerB.getPockers());
+            case 4:
+                return handleSameStraight(playerA.getPockers(), playerB.getPockers());
         }
         return 0;
     }
 
+    private static int handleSameStraight(List<Pocker> pockersA, List<Pocker> pockersB) {
+        return compareMaxPoint(pockersA, pockersB);
+    }
+
     private static int handleSameThreeOfKind(List<Pocker> pockersA, List<Pocker> pockersB) {
+        return compareMaxPoint(pockersA, pockersB);
+    }
+
+    private static int compareMaxPoint(List<Pocker> pockersA, List<Pocker> pockersB) {
         List<Integer> countListA = pockersA.stream().map(Pocker::getPoint).collect(Collectors.toList());
         List<Integer> countListB = pockersB.stream().map(Pocker::getPoint).collect(Collectors.toList());
         int maxPointA = getMaxCount(countListA);
@@ -117,6 +127,9 @@ public class LevelCal {
     }
 
     public static boolean isSTRAIGHT(List<Pocker> pockers) {
+        if(pockers.size()!=5){
+            return false;
+        }
         int min = pockers.stream().mapToInt(Pocker::getPoint).min().orElse(0);
         List<Integer> pointList=pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
         for (int i = 0; i < pointList.size(); i++) {
