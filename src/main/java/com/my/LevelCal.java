@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(hasThreeOfKind(pockers)){
+        if(isSTRAIGHT(pockers)){
+            return PokerLevel.STRAIGHT;
+        }else if(hasThreeOfKind(pockers)){
             return PokerLevel.THREE_OF_A_KIND;
         }else if (hasPair(pockers)) {
             return PokerLevel.PAIR;
@@ -112,5 +114,18 @@ public class LevelCal {
             pockers = pockers.stream().filter(item -> item.getPoint() != point).collect(Collectors.toList());
         }
         return pockers;
+    }
+
+    public static boolean isSTRAIGHT(List<Pocker> pockers) {
+        int min = pockers.stream().mapToInt(Pocker::getPoint).min().orElse(0);
+        List<Integer> pointList=pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        for (int i = 0; i < pointList.size(); i++) {
+            if (pointList.contains(min)) {
+                min++;
+            }else {
+                return false;
+            }
+        }
+        return true;
     }
 }

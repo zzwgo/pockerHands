@@ -75,7 +75,7 @@ public class PockerHandsTest {
     }
 
     @Test
-    public void should_return_2_when_call_excute_given_each_player_five_poker_and_each_has_same_pair(){
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_each_has_same_pair(){
         List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","2D","5S","9C","AC"));
         List<Pocker> pockerListB= getPockerList(Arrays.asList("2S","2C","8C","9C","KD"));
 
@@ -95,7 +95,7 @@ public class PockerHandsTest {
     }
 
     @Test
-    public void should_return_2_when_call_excute_given_each_player_five_poker_and_each_has_two_same_pair(){
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_each_has_two_same_pair(){
         List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","2D","5H","5D","AC"));
         List<Pocker> pockerListB= getPockerList(Arrays.asList("2S","2C","5S","5C","KD"));
 
@@ -105,7 +105,7 @@ public class PockerHandsTest {
     }
 
     @Test
-    public void should_return_2_when_call_excute_given_each_player_five_poker_and_each_has_two_same_pair_and_same_point(){
+    public void should_return_3_when_call_excute_given_each_player_five_poker_and_each_has_two_same_pair_and_same_point(){
         List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","2D","5H","5D","KC"));
         List<Pocker> pockerListB= getPockerList(Arrays.asList("2S","2C","5S","5C","KD"));
 
@@ -128,6 +128,16 @@ public class PockerHandsTest {
     public void should_return_2_when_call_excute_given_each_player_five_poker_and_each_has_three_of_A_kind(){
         List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","2D","2S","5D","AC"));
         List<Pocker> pockerListB= getPockerList(Arrays.asList("2S","2C","6S","6C","6D"));
+
+        int result=pockerHands.excute(pockerListA,pockerListB);
+
+        assertEquals(2,result);
+    }
+
+    @Test
+    public void should_return_2_when_call_excute_given_each_player_five_poker_and_playerB_has_straight(){
+        List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","2D","2S","9C","AC"));
+        List<Pocker> pockerListB= getPockerList(Arrays.asList("4H","5C","6C","7C","8D"));
 
         int result=pockerHands.excute(pockerListA,pockerListB);
 
