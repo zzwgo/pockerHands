@@ -225,6 +225,15 @@ public class PockerHandsTest {
         assertEquals(2, result);
     }
 
+    @Test
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_each_player_has_straight_flush() {
+        List<Pocker> pockerListA = getPockerList(Arrays.asList("3S", "4S", "5S", "6S", "7S"));
+        List<Pocker> pockerListB = getPockerList(Arrays.asList("2D", "3D", "4D", "5D", "6D"));
+
+        int result = pockerHands.excute(pockerListA, pockerListB);
+
+        assertEquals(1, result);
+    }
     private List<Pocker> getPockerList(List<String> values) {
         List<Pocker> pockerList = new ArrayList<Pocker>();
         for (String value : values) {

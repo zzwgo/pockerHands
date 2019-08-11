@@ -6,32 +6,32 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if(isStraightFlush(pockers)){
+        if (isStraightFlush(pockers)) {
             return PokerLevel.STRAIGHT_FLUSH;
-        }else if(isFourOfKind(pockers)){
+        } else if (isFourOfKind(pockers)) {
             return PokerLevel.FOUR_OF_A_KIND;
-        }else if(isFullHouse(pockers)){
+        } else if (isFullHouse(pockers)) {
             return PokerLevel.FULL_HOUSE;
-        }else if(isFlush(pockers)){
+        } else if (isFlush(pockers)) {
             return PokerLevel.FLUSH;
-        }else if(isStraight(pockers)){
+        } else if (isStraight(pockers)) {
             return PokerLevel.STRAIGHT;
-        }else if(hasThreeOfKind(pockers)){
+        } else if (hasThreeOfKind(pockers)) {
             return PokerLevel.THREE_OF_A_KIND;
-        }else if (hasPair(pockers)) {
+        } else if (hasPair(pockers)) {
             return PokerLevel.PAIR;
         }
         return PokerLevel.HIGH_POINT;
     }
 
     private static boolean isStraightFlush(List<Pocker> pockers) {
-       boolean isContinuous= judgeIsContinuous(pockers);
+        boolean isContinuous = judgeIsContinuous(pockers);
         Set<String> set = pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toSet());
-        return set.size() == 1&&isContinuous;
+        return set.size() == 1 && isContinuous;
     }
 
     private static boolean isFourOfKind(List<Pocker> pockers) {
-        Map<Integer,Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
+        Map<Integer, Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             if (entry.getValue() > 3) {
                 return true;
@@ -41,10 +41,10 @@ public class LevelCal {
     }
 
     private static boolean hasThreeOfKind(List<Pocker> pockers) {
-        Map<Integer,Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
+        Map<Integer, Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             if (entry.getValue() > 2) {
-               return true;
+                return true;
             }
         }
         return false;
@@ -74,8 +74,14 @@ public class LevelCal {
                 return handleSameFullHouse(playerA.getPockers(), playerB.getPockers());
             case 7:
                 return handleSameFourOfKind(playerA.getPockers(), playerB.getPockers());
+            case 8:
+                return handleSameStraightFlush(playerA.getPockers(), playerB.getPockers());
         }
         return 0;
+    }
+
+    private static int handleSameStraightFlush(List<Pocker> pockerA, List<Pocker> pockerB) {
+        return compareMaxPoint(pockerA, pockerB);
     }
 
     private static int handleSameFourOfKind(List<Pocker> pockerA, List<Pocker> pockerB) {
@@ -173,15 +179,15 @@ public class LevelCal {
     }
 
     private static boolean judgeIsContinuous(List<Pocker> pockers) {
-        if(pockers.size()!=5){
+        if (pockers.size() != 5) {
             return false;
         }
         int min = pockers.stream().mapToInt(Pocker::getPoint).min().orElse(0);
-        List<Integer> pointList=pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        List<Integer> pointList = pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
         for (int i = 0; i < pointList.size(); i++) {
             if (pointList.contains(min)) {
                 min++;
-            }else {
+            } else {
                 return false;
             }
         }
@@ -189,14 +195,14 @@ public class LevelCal {
     }
 
     public static boolean isFlush(List<Pocker> pockers) {
-        List<String> colorList=pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toList());
+        List<String> colorList = pockers.stream().map(Pocker::getPockerColor).collect(Collectors.toList());
         Set<String> set = new HashSet<>(colorList);
-        return set.size() == 1&&colorList.size()==5;
+        return set.size() == 1 && colorList.size() == 5;
     }
 
     public static boolean isFullHouse(List<Pocker> pockers) {
-        List<Integer> colorList=pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        List<Integer> colorList = pockers.stream().map(Pocker::getPoint).collect(Collectors.toList());
         Set<Integer> set = new HashSet<>(colorList);
-        return set.size() == 2&&colorList.size()==5;
+        return set.size() == 2 && colorList.size() == 5;
     }
 }
