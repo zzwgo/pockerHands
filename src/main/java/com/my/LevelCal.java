@@ -1,6 +1,8 @@
 package com.my;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LevelCal {
 
@@ -11,7 +13,11 @@ public class LevelCal {
         return PokerLevel.HIGH_POINT;
     }
     private static boolean hasPair(List<Pocker> pockers) {
-        return false;
+        Set<Integer> hashSet = new HashSet<>();
+        for(Pocker pocker:pockers){
+            hashSet.add(pocker.getPoint());
+        }
+        return hashSet.size() != pockers.size();
     }
     public static int handleSameLevel(Player playerA, Player playerB) {
         switch (playerA.getPokerLevel()) {
