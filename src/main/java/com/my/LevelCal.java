@@ -36,7 +36,9 @@ public class LevelCal {
         int maxPointA = getMaxPairCount(countListA);
         int maxPointB = getMaxPairCount(countListB);
         if (maxPointA == maxPointB) {
-            return 3;
+            pockersA=pockersA.stream().filter(item->item.getPoint()!=maxPointA).collect(Collectors.toList());
+            pockersB=pockersB.stream().filter(item->item.getPoint()!=maxPointB).collect(Collectors.toList());
+            return handleSameHighPoint(pockersA,pockersB);
         }
         return maxPointA > maxPointB ? 1 : 2;
     }
