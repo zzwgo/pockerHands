@@ -192,9 +192,18 @@ public class PockerHandsTest {
     }
 
     @Test
-    public void should_return_1_when_call_excute_given_each_player_five_poker_and_playeBr_has_four_of_a_kind() {
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_playerB_has_four_of_a_kind() {
         List<Pocker> pockerListA = getPockerList(Arrays.asList("7H", "7C", "7S", "7D", "8D"));
         List<Pocker> pockerListB = getPockerList(Arrays.asList("2D", "2S", "2H", "5D", "5C"));
+        int result = pockerHands.excute(pockerListA, pockerListB);
+
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void should_return_1_when_call_excute_given_each_player_five_poker_and_each_player_has_four_of_a_kind() {
+        List<Pocker> pockerListA = getPockerList(Arrays.asList("7H", "7C", "7S", "7D", "8D"));
+        List<Pocker> pockerListB = getPockerList(Arrays.asList("2C", "2H", "2S", "2D", "5C"));
         int result = pockerHands.excute(pockerListA, pockerListB);
 
         assertEquals(1, result);
