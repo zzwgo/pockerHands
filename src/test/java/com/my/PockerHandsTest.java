@@ -21,4 +21,14 @@ public class PockerHandsTest {
 
         assertEquals(2,result);
     }
+
+    @Test
+    public void should_return_3_when_call_excute_given_KH_and_KD(){
+        Pocker pockerA=new Pocker("KH");
+        Pocker pockerB=new Pocker("KD");
+
+        int result=pockerHands.excute(singletonList(pockerA),singletonList(pockerB));
+
+        assertEquals(3,result);
+    }
 }
