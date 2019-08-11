@@ -6,10 +6,22 @@ import java.util.stream.Collectors;
 public class LevelCal {
 
     public static PokerLevel caculateLevel(List<Pocker> pockers) {
-        if (hasPair(pockers)) {
+        if(hasThreeOfKind(pockers)){
+            return PokerLevel.THREE_OF_A_KIND;
+        }else if (hasPair(pockers)) {
             return PokerLevel.PAIR;
         }
         return PokerLevel.HIGH_POINT;
+    }
+
+    private static boolean hasThreeOfKind(List<Pocker> pockers) {
+        Map<Integer,Integer> map = getCountTimesMap(pockers.stream().map(Pocker::getPoint).collect(Collectors.toList()));
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > 2) {
+               return true;
+            }
+        }
+        return false;
     }
 
     private static boolean hasPair(List<Pocker> pockers) {
@@ -26,8 +38,18 @@ public class LevelCal {
                 return handleSameHighPoint(playerA.getPockers(), playerB.getPockers());
             case 2:
                 return handleSamePair(playerA.getPockers(), playerB.getPockers());
+            case 3:
+                return handleSameThreeOfKind(playerA.getPockers(), playerB.getPockers());
         }
         return 0;
+    }
+
+    private static int handleSameThreeOfKind(List<Pocker> pockersA, List<Pocker> pockersB) {
+        List<Integer> countListA = pockersA.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        List<Integer> countListB = pockersB.stream().map(Pocker::getPoint).collect(Collectors.toList());
+        int maxPointA = getMaxCount(countListA);
+        int maxPointB = getMaxCount(countListB);
+        return maxPointA > maxPointB ? 1 : 2;
     }
 
     private static int handleSamePair(List<Pocker> pockersA, List<Pocker> pockersB) {
@@ -70,10 +92,8 @@ public class LevelCal {
     private static int handleSameHighPoint(List<Pocker> pockersA, List<Pocker> pockersB) {
         pockersA = getNoRepeatedPockerList(pockersA);
         pockersB = getNoRepeatedPockerList(pockersB);
-
         int maxPointA = pockersA.stream().mapToInt(Pocker::getPoint).reduce(Integer::max).orElse(0);
         int maxPointB = pockersB.stream().mapToInt(Pocker::getPoint).reduce(Integer::max).orElse(0);
-
         if (maxPointA == maxPointB) {
             return 3;
         }
