@@ -54,6 +54,18 @@ public class PockerHandsTest {
         assertEquals(3,result);
     }
 
+//    @Test
+//    public void should_return_2_when_call_excute_given_each_player_five_poker_and_PlayerB_has_pair(){
+//
+//        List<Pocker> pockerListA= getPockerList(Arrays.asList("2H","3D","5S","9C","AC"));
+//        List<Pocker> pockerListB= getPockerList(Arrays.asList("4H","5C","8C","10D","10H"));
+//
+//        int result=pockerHands.excute(pockerListA,pockerListB);
+//
+//        assertEquals(2,result);
+//    }
+
+
     private List<Pocker> getPockerList(List<String> values){
         List<Pocker> pockerList= new ArrayList<Pocker>();
         for(String value:values){
